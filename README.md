@@ -41,6 +41,8 @@ npx ts-node generate-logs.ts
   "dev": "ts-node src/index.ts",
   "start": "node dist/index.js",
   "typecheck": "tsc --noEmit",
+  "generate-logs": "ts-node generate-logs.ts",
+  "analyze": "ts-node analyze.ts",
   "lint": "eslint . --ext .ts",
   "test": "jest"
 }
@@ -64,6 +66,20 @@ npm run dev
 npm run build
 npm start
 ```
+
+6. Analyze logs (example)
+
+If you generated a sample log (`massive-log.log` or `massive-log.txt`), run the analyzer to extract lines containing `[ERROR]`:
+
+```bash
+# run directly with ts-node
+npx ts-node analyze.ts
+
+# or via npm script
+npm run analyze
+```
+
+By default the included `analyze.ts` script reads `./massive-log.txt` and writes `./errors-only.txt` containing only the lines that matched. Adjust paths in `analyze.ts` or enhance it to accept CLI arguments as the next step.
 
 ---
 

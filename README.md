@@ -95,6 +95,24 @@ Try to read this file using `fs.readFileSync`.
 
 Experiment: If you increase the loop to 10 million lines in Task A, `readFileSync` will likely throw a **"Heap out of memory"** error. This is the problem we are solving — reading large log files into memory at once does not scale and will crash for very large files.
 
+
+### 🔁 Stream piping demo — `stream-pipe.ts`
+
+You recently added `stream-pipe.ts` to demonstrate stream piping and robust streaming patterns. The script is intended to show how to: read from a large file, optionally transform/compress data (for example, gzip), and pipe the result to an output stream while respecting backpressure.
+
+Run the example:
+
+```bash
+# Run directly
+npx ts-node stream-pipe.ts
+
+# Or via npm
+npm run stream-pipe
+```
+
+Use this script as a reference for creating pipelines that produce compressed or transformed outputs (e.g., `errors-only.log.gz`) without loading the whole file into memory.
+
+
 ## ✅ Solution
 
 Process logs using streaming and line-by-line parsing to keep memory usage constant. The included `analyze.ts` demonstrates this approach: it uses `fs.createReadStream` and `readline.createInterface` to handle one line at a time and writes matches to an output stream (`errors-only.txt`).

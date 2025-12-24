@@ -87,6 +87,25 @@ By default the included `analyze.ts` script reads `./massive-log.txt` and writes
 - CLI flags: `--input <file>`, `--format json|text`, `--from <timestamp>`, `--to <timestamp>`, `--level <error|warn|info>`.
 - Commands: `analyze`, `report`, `tail` (streaming analytics for live logs).
 
+## 🔍 Problem we're solving
+
+**Task B: Read the File (The Wrong Way)**
+
+Try to read this file using `fs.readFileSync`.
+
+Experiment: If you increase the loop to 10 million lines in Task A, `readFileSync` will likely throw a **"Heap out of memory"** error. This is the problem we are solving — reading large log files into memory at once does not scale and will crash for very large files.
+
+## ✅ Solution
+
+Process logs using streaming and line-by-line parsing to keep memory usage constant. The included `analyze.ts` demonstrates this approach: it uses `fs.createReadStream` and `readline.createInterface` to handle one line at a time and writes matches to an output stream (`errors-only.txt`).
+
+Advantages of this approach:
+- Low, constant memory usage (works with very large files)
+- Natural support for streaming and tailing logs
+- Easier to handle backpressure (check `write()` return value and listen for `drain` if needed)
+
+Next improvements can include accepting `--input` and `--output` CLI arguments, adding backpressure handling, and making the analyzer pluggable for different log formats.
+
 ---
 
 ## 📈 Suggested roadmap (next steps)
